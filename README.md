@@ -148,11 +148,60 @@ pytest -q
 
 ## 8. GitHub 협업 규칙
 
-1. `main` 브랜치는 통합 기준으로 사용하고, 개발은 `feature/<모듈>-<작업>` 형태의 브랜치에서 진행합니다.
-2. 작업이 끝나면 Pull Request(PR)를 생성하고 팀원 리뷰를 거쳐 병합합니다.
-3. API 요청·응답을 바꾸면 `docs/API_SPEC.md`와 관련 테스트를 함께 수정합니다.
-4. 실행에 필요한 라이브러리는 `pyproject.toml`에서 관리합니다.
-5. **원본 데이터셋, 영상, 모델 가중치, 비밀키, 개인정보는 GitHub에 업로드하지 않습니다.**
+### 브랜치 구성
+
+| 브랜치 | 담당자 | 주요 작업 |
+|---|---|---|
+| `main` | 공동 | PR 검토를 마친 안정적인 통합 코드 |
+| `feature/drift` | 강서윤 | 드리프트 감지(RQ1) |
+| `feature/selection` | 김승룡 | 프레임 선별(RQ2) |
+| `feature/model-training` | 김동은 | SHIFT 전처리, Student·Teacher 및 베이스라인 |
+| `feature/api-edge` | 이은민 | FastAPI, ONNX 및 시연 데모 |
+
+위 4개 `feature/*` 브랜치는 GitHub에 생성되어 있습니다. 공통 파일을 수정할 때는 PR에서 변경 사항을 확인하고 조율합니다.
+
+### 개발 및 병합 규칙
+
+1. **`main`에 직접 개발하거나 Push하지 않습니다.** 각자 담당 `feature/*` 브랜치에서 작업합니다.
+2. 변경 사항을 Push한 뒤 **`feature/* → main` Pull Request(PR)** 를 생성합니다.
+3. 가능하면 본인이 아닌 팀원 1명 이상의 리뷰를 받은 후 병합합니다. *(GitHub 브랜치 보호 규칙은 별도 설정 필요)*
+4. API 요청·응답이 바뀌면 `docs/API_SPEC.md`와 관련 테스트를 함께 수정합니다.
+5. PR을 올리기 전에 `pytest -q`로 테스트하고, GitHub Actions 결과도 확인합니다.
+6. 의존성은 `pyproject.toml`에서 관리합니다.
+7. **원본 데이터셋, 영상, 모델 가중치, 비밀키, 개인정보는 GitHub에 업로드하지 않습니다.**
+
+### 처음 Clone한 후 담당 브랜치로 이동
+
+```bash
+git fetch origin
+git switch --track origin/feature/model-training
+```
+
+위 명령은 **김동은 담당 브랜치 예시**입니다. 다른 팀원은 자신의 브랜치 이름으로 바꿔 실행합니다.
+
+### 평소 작업 흐름
+
+```bash
+git status
+git add .
+git commit -m "feat: 작업 내용"
+git push
+```
+
+다른 작업이 `main`에 병합된 뒤 담당 브랜치로 반영할 때는 아래 순서를 사용합니다. 충돌이 발생하면 변경 내용을 확인하고 해결합니다.
+
+```bash
+git switch feature/model-training
+git fetch origin
+git merge origin/main
+```
+
+### 커밋 메시지 예시
+
+- `feat: 드리프트 감지 로직 구현`
+- `fix: 프레임 업로드 오류 수정`
+- `docs: API 명세 수정`
+- `test: 업로드 검증 테스트 추가`
 
 ## 9. 프로젝트 문서 및 협업 공간
 
