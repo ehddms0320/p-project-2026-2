@@ -1,0 +1,13 @@
+{
+  "stream_id": "shift-val-001",
+  "environment_hint": "rain",
+  "selection_strategy": "hybrid",
+  "budget_frames": 2,
+  "trigger": "drift",
+  "drift_score": 0.91,
+  "student_version": "student-v1",
+  "frames": [
+    {"frame_id":"f100","filename":"f100.jpg","timestamp_ms":10000,"uncertainty":0.82},
+    {"frame_id":"f101","filename":"f101.jpg","timestamp_ms":10100,"uncertainty":0.75}
+  ]
+}
